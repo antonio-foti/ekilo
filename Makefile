@@ -1,7 +1,7 @@
-all: kilo
+all: ekilo
 
-kilo: kilo.c
-	$(CC) -o kilo kilo.c -Wall -W -pedantic -std=c99
+kilo: ekilo.c
+	$(CC) -o ekilo ekilo.c -Wall -W -pedantic -std=c99
 
 clean:
-	rm kilo
+	rm ekilo

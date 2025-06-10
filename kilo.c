@@ -71,7 +71,7 @@
 struct editorSyntax {
     char **filematch;
     char **keywords;
-    char singleline_comment_start[2];
+    char singleline_comment_start[3];
     char multiline_comment_start[3];
     char multiline_comment_end[3];
     int flags;
@@ -212,6 +212,9 @@ void disableRawMode(int fd) {
 /* Called at exit to avoid remaining in raw mode. */
 void editorAtExit(void) {
     disableRawMode(STDIN_FILENO);
+ /* Clear screen and position cursor at top-left */
+    write(STDOUT_FILENO, "\x1b[2J", 4);
+    write(STDOUT_FILENO, "\x1b[H", 3);
 }
 
 /* Raw mode: 1960 magic shit. */

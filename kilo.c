@@ -36,6 +36,7 @@
 
 #ifdef __linux__
 #define _POSIX_C_SOURCE 200809L
+#define _DEFAULT_SOURCE
 #endif
 
 #include <termios.h>
@@ -1262,18 +1263,50 @@ int editorFileWasModified(void) {
 }
 
 void updateWindowSize(void) {
-    if (getWindowSize(STDIN_FILENO,STDOUT_FILENO,
-                      &E.screenrows,&E.screencols) == -1) {
-        perror("Unable to query the screen for size (columns / rows)");
-        exit(1);
+    int new_rows, new_cols;
+    
+    // Try to get window size, with retry logic
+    int attempts = 0;
+    const int max_attempts = 3;
+    
+    while (attempts < max_attempts) {
+        if (getWindowSize(STDIN_FILENO, STDOUT_FILENO, &new_rows, &new_cols) == 0) {
+            // Success - update the screen dimensions
+            E.screenrows = new_rows - 2; /* Get room for status bar. */
+            E.screencols = new_cols;
+            return;
+        }
+        
+        attempts++;
+        if (attempts < max_attempts) {
+            // Brief delay before retry (10ms)
+            usleep(10000);
+        }
     }
-    E.screenrows -= 2; /* Get room for status bar. */
+    
+    // If all attempts failed, keep the current dimensions
+    // and set a status message instead of exiting
+    editorSetStatusMessage("Warning: Could not update window size");
 }
 
 void handleSigWinCh(int unused __attribute__((unused))) {
     updateWindowSize();
-    if (E.cy > E.screenrows) E.cy = E.screenrows - 1;
-    if (E.cx > E.screencols) E.cx = E.screencols - 1;
+    
+    // Ensure cursor position is within new screen bounds
+    if (E.cy >= E.screenrows) E.cy = E.screenrows - 1;
+    if (E.cx >= E.screencols) E.cx = E.screencols - 1;
+    
+    // Adjust offsets if necessary
+    if (E.rowoff + E.cy >= E.numrows) {
+        E.rowoff = E.numrows - E.cy - 1;
+        if (E.rowoff < 0) E.rowoff = 0;
+    }
+    
+    if (E.coloff + E.cx >= E.screencols) {
+        E.coloff = 0;
+        E.cx = E.screencols - 1;
+    }
+    
     editorRefreshScreen();
 }
 

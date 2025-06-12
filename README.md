@@ -1,12 +1,13 @@
 # ekilo - Enhanced Kilo [![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-**ekilo** is a lightweight terminal text editor based on the original kilo editor with enhanced syntax highlighting and improved window resizing.
+**ekilo** is a lightweight terminal text editor based on the original kilo editor with enhanced functions.
 
 ## Key Features
 - **Multi-language syntax highlighting**:
   C/C++, Python, Java, JavaScript/TypeScript, C#, PHP, Ruby, Swift, SQL, Rust, Dart
 - **Improved terminal resizing**
 - **Clean screen exit**
+- **Autocompletion**
 
 ## Installation
 ```bash

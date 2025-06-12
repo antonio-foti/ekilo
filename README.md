@@ -9,7 +9,7 @@
 - **Clean screen exit**
 - **Autocompletion**
 
-## Installation
+## Installation (Linux)
 ```bash
 git clone https://github.com/antonio-foti/ekilo.git
 cd ekilo
@@ -17,7 +17,7 @@ make
 sudo cp ekilo /usr/local/bin/
 ```
 
-## Uninstallation
+## Uninstallation (Linux)
 ```bash
 sudo rm /usr/local/bin/ekilo
 ```

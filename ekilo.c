@@ -784,11 +784,14 @@ void editorUpdateSyntax(erow *row) {
         in_comment = 1;
 
     while(*p) {
-        /* Handle // comments. */
-        if (prev_sep && *p == scs[0] && *(p+1) == scs[1]) {
-            /* From here to end is a comment */
-            memset(row->hl+i,HL_COMMENT,row->size-i);
-            return;
+       /* Handle single line comments (both single and double character markers) */
+       if (prev_sep && *p == scs[0]) {
+           /* Check if this is really a comment start (next char matches or scs is single char) */
+           if (scs[1] == '\0' || *(p+1) == scs[1]) {
+               /* From here to end is a comment */
+               memset(row->hl+i,HL_COMMENT,row->size-i);
+               return;
+           }
         }
 
         /* Handle multi line comments. */

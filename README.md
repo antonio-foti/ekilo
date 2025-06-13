@@ -1,6 +1,6 @@
 # ekilo - Enhanced Kilo [![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-**ekilo** is a lightweight terminal text editor based on the original kilo editor with enhanced functions.
+**ekilo** is a super lightweight terminal text editor based on the original kilo editor with enhanced functions.
 
 ## Key Features
 - **Syntax highlighting**:

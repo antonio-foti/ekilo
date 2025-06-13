@@ -8,6 +8,7 @@
 - **Improved terminal resizing**
 - **Clean screen exit**
 - **Autocompletion**
+- **No external dependencies**
 
 ## Installation (Linux)
 ```bash

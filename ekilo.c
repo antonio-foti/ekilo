@@ -1,9 +1,12 @@
-/* eKilo -- ekilo is a lightweight terminal text editor based on the 
- *          original kilo editor with enhanced functions.
- *           
- *          
- *       
- * Created by Antonio Foti - June 10 2025, Italy.
+
+/* eKilo -- eKilo is a lightweight terminal text editor based on the original 
+ *          kilo editor with enhanced functions. Its peculiarity is that it canAdd commentMore actions
+ *          run on any hardware, maintaining a high-performance and useful style.
+ *          It installs in a minute, if you want to take a look I would be happy, 
+ *          having found a utility myself, having completely replaced vim. 
+ *          Any advice is highly appreciated.
+ *      
+ * Created by Antonio Foti - 2025, Italy.
  * -----------------------------------------------------------------------
  *
  * Copyright (C) 2016 Salvatore Sanfilippo <antirez at gmail dot com>

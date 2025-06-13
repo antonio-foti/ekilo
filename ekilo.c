@@ -1,14 +1,9 @@
-/* eKilo -- eKilo is a lightweight terminal text editor based on the original 
- *          kilo editor with enhanced functions. Its peculiarity is that it can
- *          run on any hardware, maintaining a high-performance and useful style.
- *          It installs in a minute, if you want to take a look I would be happy, 
- *          having found a utility myself, having completely replaced vim. 
- *          Any advice is highly appreciated.
- *          
+/* eKilo -- ekilo is a lightweight terminal text editor based on the 
+ *          original kilo editor with enhanced functions.
  *           
  *          
  *       
- * Created by Antonio Foti - 2025, Italy.
+ * Created by Antonio Foti - June 10 2025, Italy.
  * -----------------------------------------------------------------------
  *
  * Copyright (C) 2016 Salvatore Sanfilippo <antirez at gmail dot com>
@@ -111,10 +106,12 @@ struct editorConfig {
     int rawmode;    /* Is terminal raw mode enabled? */
     erow *row;      /* Rows */
     int dirty;      /* File modified but not saved. */
+    int paste_mode;      /* If 1, we're in paste mode - disable autocomplete */
     char *filename; /* Currently open filename */
     char statusmsg[80];
     time_t statusmsg_time;
     struct editorSyntax *syntax;    /* Current syntax highlight, or NULL. */
+    struct timeval last_char_time; /* Time of last char for paste detection */
 };
 
 static struct editorConfig E;
@@ -562,6 +559,9 @@ void editorInsertCharAutoComplete(int c) {
     
     /* Insert the character first */
     editorInsertChar(c);
+
+    /* Skip autocompletion during paste operations */
+    if (E.paste_mode) return;
     
     /* If this is a bracket/quote and we're either at end of line or 
      * next character is whitespace/symbol, insert the closing character */
@@ -1574,6 +1574,19 @@ void editorProcessKeypress(int fd) {
     static int quit_times = EKILO_QUIT_TIMES;
 
     int c = editorReadKey(fd);
+
+    /* Paste mode detection */
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    if (tv.tv_sec == E.last_char_time.tv_sec) {
+        long elapsed = (tv.tv_usec - E.last_char_time.tv_usec);
+        if (elapsed < 30000) E.paste_mode = 1; /* 30ms threshold */
+    } else if (tv.tv_sec - E.last_char_time.tv_sec > 0) {
+        E.paste_mode = 0;
+    }
+    E.last_char_time = tv;
+
+    /* Original switch case */
     switch(c) {
     case ENTER:         /* Enter */
         editorInsertNewline();
@@ -1590,6 +1603,12 @@ void editorProcessKeypress(int fd) {
             quit_times--;
             return;
         }
+
+   	 /* Reset paste mode on non-char actions */
+   	 if (c != ESC && !(c >= 32 && c <= 126)) {
+    	    E.paste_mode = 0;
+   	 }
+
         exit(0);
         break;
     case CTRL_S:        /* Ctrl-s */
@@ -1700,6 +1719,9 @@ void initEditor(void) {
     E.dirty = 0;
     E.filename = NULL;
     E.syntax = NULL;
+    E.paste_mode = 0;
+    E.last_char_time.tv_sec = 0;
+    E.last_char_time.tv_usec = 0;
     updateWindowSize();
     signal(SIGWINCH, handleSigWinCh);
 }

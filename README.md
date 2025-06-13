@@ -2,7 +2,7 @@
 
 ![eKilo](https://raw.githubusercontent.com/antonio-foti/ekilo/refs/heads/master/eKilo.webp)
 
-**eKilo** is a lightweight terminal text editor based on the original kilo editor with enhanced functions. Its peculiarity is that it can run on any hardware, maintaining a high-performance and useful style. It installs in a minute, if you want to take a look I would be happy, having found a utility myself, having completely replaced vim. Any advice is highly appreciated. 
+**eKilo** is a lightweight terminal text editor based on the original kilo editor with enhanced functions. Its peculiarity is that it can run on any hardware, maintaining a high-performance and useful style. It installs in a minute, if you want to take a look I would be happy, having found a utility myself. Any advice is highly appreciated. 
 
 ## Key Features
 - **Syntax highlighting**:

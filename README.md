@@ -3,7 +3,7 @@
 **ekilo** is a lightweight terminal text editor based on the original kilo editor with enhanced functions.
 
 ## Key Features
-- **Multi-language syntax highlighting**:
+- **Syntax highlighting**:
   C/C++, Python, Java, JavaScript/TypeScript, C#, PHP, Ruby, Swift, SQL, Rust, Dart
 - **Improved terminal resizing**
 - **Clean screen exit**

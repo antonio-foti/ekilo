@@ -10,6 +10,7 @@
 - **Improved terminal resizing**
 - **Clean screen exit**
 - **Autocompletion**
+- **Improved key combinations**
 - **No external dependencies**
 
 ## Installation (Linux)
@@ -34,7 +35,7 @@ ekilo filename.ext
 - **Ctrl-S:** Save file
 - **Ctrl-Q:** Quit (press 3 times for unsaved files)
 - **Ctrl-F:** Search
-- **Ctrl-H:** Backspace/Delete
+- **Ctrl-H:** Delete entire line
 - **Arrows:** Navigation
 
 

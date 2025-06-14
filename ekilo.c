@@ -100,21 +100,22 @@ typedef struct hlcolor {
 } hlcolor;
 
 struct editorConfig {
-    int cx,cy;  /* Cursor x and y position in characters */
-    int rowoff;     /* Offset of row displayed. */
-    int coloff;     /* Offset of column displayed. */
-    int screenrows; /* Number of rows that we can show */
-    int screencols; /* Number of cols that we can show */
-    int numrows;    /* Number of rows */
-    int rawmode;    /* Is terminal raw mode enabled? */
-    erow *row;      /* Rows */
-    int dirty;      /* File modified but not saved. */
-    int paste_mode;      /* If 1, we're in paste mode - disable autocomplete */
-    char *filename; /* Currently open filename */
+    int cx,cy;      			/* Cursor x and y position in characters */
+    int rowoff;     			/* Offset of row displayed. */
+    int coloff;     			/* Offset of column displayed. */
+    int screenrows;			/* Number of rows that we can show */
+    int screencols; 			/* Number of cols that we can show */
+    int numrows;    			/* Number of rows */
+    int rawmode;    			/* Is terminal raw mode enabled? */
+    erow *row;      			/* Rows */
+    int dirty;      			/* File modified but not saved. */
+    int paste_mode; 			/* If 1, we're in paste mode - disable autocomplete */
+    int last_key;			/* Last key pressed by user */
+    char *filename;			/* Currently open filename */
     char statusmsg[80];
     time_t statusmsg_time;
-    struct editorSyntax *syntax;    /* Current syntax highlight, or NULL. */
-    struct timeval last_char_time; /* Time of last char for paste detection */
+    struct editorSyntax *syntax;    	/* Current syntax highlight, or NULL. */
+    struct timeval last_char_time; 	/* Time of last char for paste detection */
 };
 
 static struct editorConfig E;
@@ -1149,6 +1150,22 @@ void editorDelChar(void) {
     int filecol = E.coloff+E.cx;
     erow *row = (filerow >= E.numrows) ? NULL : &E.row[filerow];
 
+    /* Handle CTRL-H (delete entire line) */
+    if (E.last_key == CTRL_H && row) {
+        /* Delete the current line */
+        editorDelRow(filerow);
+        /* Adjust cursor position */
+        if (E.cy > 0) {
+            E.cy--;
+        } else if (E.rowoff > 0) {
+            E.rowoff--;
+        }
+        E.cx = 0;
+        E.coloff = 0;
+        E.dirty++;
+        return;
+    }
+
     if (!row || (filecol == 0 && filerow == 0)) return;
     if (filecol == 0) {
         /* Handle the case of column 0, we need to move the current line
@@ -1577,6 +1594,7 @@ void editorProcessKeypress(int fd) {
     static int quit_times = EKILO_QUIT_TIMES;
 
     int c = editorReadKey(fd);
+    E.last_key = c; // Store the last key pressed
 
     /* Paste mode detection */
     struct timeval tv;
@@ -1740,7 +1758,7 @@ int main(int argc, char **argv) {
     editorOpen(argv[1]);
     enableRawMode(STDIN_FILENO);
     editorSetStatusMessage(
-        "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find | Ctrl-H = delete");
+        "HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find | Ctrl-H = delete line");
     while(1) {
         editorRefreshScreen();
         editorProcessKeypress(STDIN_FILENO);

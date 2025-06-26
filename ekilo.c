@@ -419,6 +419,50 @@ char *DART_HL_keywords[] = {
 	"Symbol|","Type|","Function|","Null|",NULL
 };
 
+/* Shell */
+char *SHELL_HL_extensions[] = {
+       ".sh", ".bash", ".zsh", ".ksh", ".csh", ".tcsh",
+       ".profile", ".bashrc", ".bash_profile", ".bash_login",
+       ".zshrc", ".zshenv", ".zlogin", ".zprofile",
+       NULL
+};
+
+char *SHELL_HL_keywords[] = {
+       /* Shell Keywords */
+       "if", "then", "else", "elif", "fi", "case", "esac", "for", "while",
+       "until", "do", "done", "select", "function", "in", "time", "coproc",
+
+       /* Common commands */
+       "alias|", "bg|", "bind|", "break|", "builtin|", "caller|", "cd|",
+       "command|", "compgen|", "complete|", "continue|", "declare|",
+       "dirs|", "disown|", "echo|", "enable|", "eval|", "exec|", "exit|",
+       "export|", "false|", "fc|", "fg|", "getopts|", "hash|", "help|",
+       "history|", "jobs|", "kill|", "let|", "local|", "logout|", "mapfile|",
+       "popd|", "printf|", "pushd|", "pwd|", "read|", "readarray|",
+       "readonly|", "return|", "set|", "shift|", "shopt|", "source|",
+       "suspend|", "test|", "times|", "trap|", "true|", "type|", "typeset|",
+       "ulimit|", "umask|", "unalias|", "unset|", "wait|",
+
+       /* System utilities */
+       "awk|", "cat|", "chmod|", "chown|", "cp|", "curl|", "cut|", "date|",
+       "df|", "diff|", "dig|", "du|", "find|", "grep|", "head|", "ln|", "ls|",
+       "mkdir|", "mv|", "ping|", "ps|", "rm|", "rsync|", "scp|", "sed|",
+       "ssh|", "sudo|", "tail|", "tar|", "top|", "touch|", "tr|", "uniq|",
+       "wc|", "wget|", "which|", "xargs|",
+
+       /* Special variables */
+       "$BASH|", "$BASHOPTS|", "$BASHPID|", "$BASH_ALIASES|",
+       "$BASH_ARGC|", "$BASH_ARGV|", "$BASH_CMDS|", "$BASH_COMMAND|",
+       "$BASH_ENV|", "$BASH_LINENO|", "$BASH_SOURCE|", "$BASH_SUBSHELL|",
+       "$BASH_VERSION|", "$DIRSTACK|", "$EUID|", "$FUNCNAME|",
+       "$GROUPS|", "$HOME|", "$HOSTNAME|", "$HOSTTYPE|", "$IFS|",
+       "$LINENO|", "$MACHTYPE|", "$OLDPWD|", "$OPTARG|", "$OPTIND|",
+       "$OSTYPE|", "$PATH|", "$PIPESTATUS|", "$PPID|", "$PS1|",
+       "$PS2|", "$PS3|", "$PS4|", "$PWD|", "$RANDOM|", "$REPLY|",
+       "$SECONDS|", "$SHELL|", "$SHELLOPTS|", "$SHLVL|", "$UID|",
+       NULL
+};
+
 /* Here we define an array of syntax highlights by extensions, keywords,
  * comments delimiters and flags. */
 struct editorSyntax HLDB[] = {
@@ -504,6 +548,13 @@ struct editorSyntax HLDB[] = {
         DART_HL_extensions,
         DART_HL_keywords,
         "//","/*","*/",
+        HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
+    },
+    {
+       /* Shell */
+        SHELL_HL_extensions,
+        SHELL_HL_keywords,
+        "#","","",  
         HL_HIGHLIGHT_STRINGS | HL_HIGHLIGHT_NUMBERS
     }
 };

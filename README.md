@@ -6,7 +6,7 @@
 
 ## Key Features
 - **Syntax highlighting**:
-  C/C++, Python, Java, JavaScript/TypeScript, C#, PHP, Ruby, Swift, SQL, Rust, Dart, Shell;
+  C/C++, Python, Java, JavaScript/TypeScript, C#, PHP, Ruby, Swift, SQL, Rust, Dart, Shell.
 - **Improved terminal resizing**
 - **Clean screen exit**
 - **Autocompletion**

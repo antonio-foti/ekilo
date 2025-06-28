@@ -1,4 +1,4 @@
-# ekilo - Enhanced Kilo [![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+# eKilo - Enhanced Kilo [![License: BSD](https://img.shields.io/badge/License-BSD-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ![usage](./usage.gif)
 
